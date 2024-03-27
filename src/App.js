@@ -202,7 +202,7 @@ function App() {
             </Box>
           </div>
           <Box display='flex' alignItems="center" justifyContent="center" marginTop="16px">
-            <Button variant="contained" onClick={handlePlayCry} style={{ marginRight: '8px'}}>Play Cry</Button>
+            <Button variant="contained" onClick={handlePlayCry} onTouchStart={handlePlayCry} style={{ marginRight: '8px'}}>Play Cry</Button>
             <Button variant="contained" onClick={handlePreviousClick} style={{ marginRight: '8px' }}>Previous</Button>
             <Button variant="contained" onClick={handleNextClick}>Next</Button>
             
