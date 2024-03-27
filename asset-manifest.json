@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/pokefindr/static/css/main.f855e6bc.css",
-    "main.js": "/pokefindr/static/js/main.f8d45acd.js",
+    "main.js": "/pokefindr/static/js/main.e19ddbff.js",
     "static/js/453.13c78c6b.chunk.js": "/pokefindr/static/js/453.13c78c6b.chunk.js",
     "index.html": "/pokefindr/index.html",
     "main.f855e6bc.css.map": "/pokefindr/static/css/main.f855e6bc.css.map",
-    "main.f8d45acd.js.map": "/pokefindr/static/js/main.f8d45acd.js.map",
+    "main.e19ddbff.js.map": "/pokefindr/static/js/main.e19ddbff.js.map",
     "453.13c78c6b.chunk.js.map": "/pokefindr/static/js/453.13c78c6b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f855e6bc.css",
-    "static/js/main.f8d45acd.js"
+    "static/js/main.e19ddbff.js"
   ]
 }
