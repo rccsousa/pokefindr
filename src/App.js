@@ -1,6 +1,7 @@
 import './App.css';
 
 import React, { useState} from 'react';
+import {Button , TextField, Box} from '@mui/material'
 
 // make output prettier.
 function capitalize(str) {
@@ -79,6 +80,10 @@ function App() {
         } else {
           // If Pokémon with the provided name does not exist, update state accordingly
           setNotification(`${searchValue} does not exist.`)
+          setPokemonData({
+            name: 'Pokémon does not exist.',
+            sprite: null
+          })
           
         }
 
@@ -98,11 +103,10 @@ function App() {
     setInputText(event.target.value);
   };
 
-  // handle changes to search buttons
+  // handle changes to search buttons 
   const handleSearchClick = () => {
     setNotification('');
-    
-  
+
     // Check if Pokémon data is cached
     const cachedPokemon = getPokemonFromCache(pokemonCache, inputText);
     if (cachedPokemon) {
@@ -113,6 +117,12 @@ function App() {
       fetchData(inputText, 'name');
     }
   };
+
+  const handleEnterKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearchClick();
+    }
+  }
 
   const handleNextClick = () => {
     setNotification('');
@@ -152,40 +162,56 @@ function App() {
   }
 
 
+  
+
+
   const handlePlayCry = () => {
     if (pokemonData.cry) {
       const audio = new Audio(pokemonData.cry);
-      audio.play();
+  
+      // Play audio only if the user interacts with the button
+      audio.play().catch(error => {
+        console.error('Failed to play audio:', error);
+      });
     }
-
-  }
+  };
+  
 
 
   return (
-    <div className="App">
-      <div>
-      <input
-      type='text'
-      value = {inputText}
-      onChange={handleInputChange}
-      placeholder='hey-ya!'
-      />
-      <button onClick={handleSearchClick}>Search</button>
+    <div className="App" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+      <div style={{ textAlign: 'center' }}>
+        <Box border='1px solid #ccc' padding="16px">
+          <Box display='flex' alignItems="center" justifyContent="center" marginBottom="16px">
+            
+            <TextField 
+              variant='outlined'
+              style={{ height: '40px', marginRight: '8px' }}
+              value={inputText}
+              onChange={handleInputChange}
+              onKeyPress = {handleEnterKeyPress}
+              placeholder='Input a Pokémon name'
+            />
+            <Button variant="contained" onClick={handleSearchClick} style={{ height: '40px' }}>Search</Button>
+          </Box>
+          <div>
+            <Box padding="16px" marginBottom="16px">
+              <h2>{pokemonData.name}</h2>
+              {pokemonData.sprite && <img src={pokemonData.sprite} alt="Pokemon Sprite" style={{ width: '200px' }} />}
+              <p>{notification}</p>
+            </Box>
+          </div>
+          <Box display='flex' alignItems="center" justifyContent="center" marginTop="16px">
+            <Button variant="contained" onClick={handlePlayCry} style={{ marginRight: '8px'}}>Play Cry</Button>
+            <Button variant="contained" onClick={handlePreviousClick} style={{ marginRight: '8px' }}>Previous</Button>
+            <Button variant="contained" onClick={handleNextClick}>Next</Button>
+            
+          </Box>
+        </Box>
       </div>
-      <div>
-        <h2>{pokemonData.name}</h2>
-        {pokemonData.sprite && <img src={pokemonData.sprite} alt="Pokemon Sprite" /> }
-        <h1>{pokemonData.id}</h1>
-        <button onClick={handlePreviousClick}>View previous</button>
-        <button onClick={handleNextClick}>View next</button>
-        <button onClick={handlePlayCry}>Play cry</button>
-        
-        <p>{notification}</p>
-
-      </div>
-
     </div>
   );
 }
+
 
 export default App;

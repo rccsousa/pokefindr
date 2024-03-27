@@ -18,7 +18,7 @@ describe('fetchData', () => {
 
     const { getByText, getByPlaceholderText } = render(<App />);
 
-    const input = getByPlaceholderText('hey-ya!');
+    const input = getByPlaceholderText('Input a Pokémon name');
     fireEvent.change(input, { target: { value: 'pikachu' } });
 
     const searchButton = getByText('Search');
@@ -42,7 +42,7 @@ describe('fetchData', () => {
     const { getByText, getByPlaceholderText, queryByText } = render(<App />);
   
     // Simulate user input and click on the search button
-    const input = getByPlaceholderText('hey-ya!');
+    const input = getByPlaceholderText('Input a Pokémon name');
     fireEvent.change(input, { target: { value: 'non-existent-pokemon' } });
     fireEvent.click(getByText('Search'));
   
@@ -90,7 +90,7 @@ describe('Next Button', () => {
     render(<App />);
 
     // Simulate user input and click on the search button to fetch initial Pokémon data
-    fireEvent.change(screen.getByPlaceholderText('hey-ya!'), { target: { value: 'pikachu' } });
+    fireEvent.change(screen.getByPlaceholderText('Input a Pokémon name'), { target: { value: 'pikachu' } });
     fireEvent.click(screen.getByText('Search'));
 
     await waitFor(() => {
@@ -140,7 +140,7 @@ describe('Previous Button', () => {
     render(<App />);
 
     // Simulate user input and click on the search button to fetch initial Pokémon data
-    fireEvent.change(screen.getByPlaceholderText('hey-ya!'), { target: { value: 'pikachu' } });
+    fireEvent.change(screen.getByPlaceholderText('Input a Pokémon name'), { target: { value: 'pikachu' } });
     fireEvent.click(screen.getByText('Search'));
 
     await waitFor(() => {
