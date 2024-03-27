@@ -2,6 +2,8 @@
 
 This is a simple React application that allows users to search for Pokémon by name or ID. It fetches Pokémon data from the [PokéAPI](https://pokeapi.co/) and displays information such as the Pokémon's name, sprite image, and ID. Users can also play the Pokémon's cry sound and navigate through the Pokémon list.
 
+[Demo](rezekiz.github.io/pokefindr)
+
 ## Features
 
 - Search for Pokémon by name or ID
