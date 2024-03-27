@@ -64,22 +64,22 @@ function App() {
           setPokemonData({
             name: capitalize(data.name),
             sprite: data.sprites.front_default,
-            id: data.id
+            id: data.id,
+            cry: data.cries.latest
           });
 
           // caching attempt
           pokemonCache[searchValue] = {
             name: capitalize(data.name),
             sprite: data.sprites.front_default,
-            id: data.id
+            id: data.id,
+            cry: data.cries.latest
           }
 
         } else {
           // If Pokémon with the provided name does not exist, update state accordingly
-          setPokemonData({
-            name: 'Pokemon does not exist',
-            sprite: null
-          });
+          setNotification(`${searchValue} does not exist.`)
+          
         }
 
         
@@ -137,10 +137,11 @@ function App() {
     setNotification('');
     
     if (pokemonData.id === 1) {
-    setNotification(`There isn't a Pokémon prior to ${pokemonData.name}`)
+    setNotification("There are no previous Pokémon")
     }
 
     else {
+      
       const previousID = parseInt(pokemonData.id) - 1
       const cachedPokemon = getPokemonFromCache(pokemonCache, previousID.toString())
 
@@ -150,7 +151,14 @@ function App() {
     }
   }
 
-  
+
+  const handlePlayCry = () => {
+    if (pokemonData.cry) {
+      const audio = new Audio(pokemonData.cry);
+      audio.play();
+    }
+
+  }
 
 
   return (
@@ -170,6 +178,7 @@ function App() {
         <h1>{pokemonData.id}</h1>
         <button onClick={handlePreviousClick}>View previous</button>
         <button onClick={handleNextClick}>View next</button>
+        <button onClick={handlePlayCry}>Play cry</button>
         
         <p>{notification}</p>
 
