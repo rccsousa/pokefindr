@@ -6,6 +6,7 @@ import { Button, TextField, Box } from '@mui/material';
 // TODO: Refactor cache handling
 // TODO: Refactor notification handler
 // TODO: improve comments
+// TODO: add audiotags to handlePlayCry to fix not playing on mobile
 
 // Function to capitalize the first letter of a string
 function capitalize(str) {

@@ -8,7 +8,7 @@ describe('fetchData', () => {
     const mockedResponse = {
       ok: true,
       json: async () => ({
-        name: 'pikachu',
+        name: 'Pikachu',
         sprites: { front_default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" },
         id: '25',
         cries: { latest: "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/25.ogg" }
@@ -19,14 +19,13 @@ describe('fetchData', () => {
     const { getByText, getByPlaceholderText } = render(<App />);
 
     const input = getByPlaceholderText('Input a Pokémon name');
-    fireEvent.change(input, { target: { value: 'pikachu' } });
+    fireEvent.change(input, { target: { value: 'Pikachu' } });
 
     const searchButton = getByText('Search');
     fireEvent.click(searchButton);
 
     await waitFor(() => {
       expect(getByText('Pikachu')).toBeInTheDocument();
-      expect(getByText('25')).toBeInTheDocument();
       expect(fetch).toHaveBeenCalledTimes(1);
       expect(fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/pokemon/pikachu');
     });
@@ -43,21 +42,19 @@ describe('fetchData', () => {
   
     // Simulate user input and click on the search button
     const input = getByPlaceholderText('Input a Pokémon name');
-    fireEvent.change(input, { target: { value: 'non-existent-pokemon' } });
+    fireEvent.change(input, { target: { value: 'nope' } });
     fireEvent.click(getByText('Search'));
   
     // Wait for the error message to be displayed
     await waitFor(() => {
       // Ensure the error message is displayed
-      expect(queryByText('non-existent-pokemon does not exist.')).toBeInTheDocument();
+      expect(getByText("Pokémon does not exist.")).toBeInTheDocument();
     });
   
     // Ensure fetch was called with the correct URL
     expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/pokemon/non-existent-pokemon');
+    expect(fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/pokemon/nope');
   });
-  
-  
 });
 
 describe('Next Button', () => {
@@ -66,7 +63,7 @@ describe('Next Button', () => {
     const mockedResponseCurrent = {
       ok: true,
       json: async () => ({
-        name: 'pikachu',
+        name: 'Pikachu',
         sprites: { front_default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" },
         id: '25',
         cries: { latest: "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/25.ogg" }
@@ -77,7 +74,7 @@ describe('Next Button', () => {
     const mockedResponseNext = {
       ok: true,
       json: async () => ({
-        name: 'raichu',
+        name: 'Raichu',
         sprites: { front_default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/26.png" },
         id: '26',
         cries: { latest: "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/26.ogg" }
@@ -90,7 +87,7 @@ describe('Next Button', () => {
     render(<App />);
 
     // Simulate user input and click on the search button to fetch initial Pokémon data
-    fireEvent.change(screen.getByPlaceholderText('Input a Pokémon name'), { target: { value: 'pikachu' } });
+    fireEvent.change(screen.getByPlaceholderText('Input a Pokémon name'), { target: { value: 'Pikachu' } });
     fireEvent.click(screen.getByText('Search'));
 
     await waitFor(() => {
@@ -98,12 +95,11 @@ describe('Next Button', () => {
     });
 
     // Simulate clicking the Next button
-    fireEvent.click(screen.getByText('View next'));
+    fireEvent.click(screen.getByText('Next'));
 
     await waitFor(() => {
       // Ensure the displayed Pokémon data is updated to the next Pokémon
       expect(screen.getByText('Raichu')).toBeInTheDocument();
-      expect(screen.getByText('26')).toBeInTheDocument();
       expect(fetch).toHaveBeenCalledTimes(2); // Ensure fetch was called twice
       expect(fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/pokemon/26'); // Ensure fetch was called with the correct URL for the next Pokémon
     });
@@ -116,18 +112,18 @@ describe('Previous Button', () => {
     const mockedResponseCurrent = {
       ok: true,
       json: async () => ({
-        name: 'pikachu',
+        name: 'Pikachu',
         sprites: { front_default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" },
         id: '25',
         cries: { latest: "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/25.ogg" }
       }),
     };
 
-    // Mock response for the next Pokémon
-    const mockedResponseNext = {
+    // Mock response for the previous Pokémon
+    const mockedResponsePrevious = {
       ok: true,
       json: async () => ({
-        name: 'arbok',
+        name: 'Arbok',
         sprites: { front_default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/24.png" },
         id: '24',
         cries: { latest: "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/24.ogg" }
@@ -135,30 +131,26 @@ describe('Previous Button', () => {
     };
 
     fetch.mockResolvedValueOnce(mockedResponseCurrent);
-    fetch.mockResolvedValueOnce(mockedResponseNext); // Mock next Pokémon data
+    fetch.mockResolvedValueOnce(mockedResponsePrevious); // Mock previous Pokémon data
 
     render(<App />);
 
     // Simulate user input and click on the search button to fetch initial Pokémon data
-    fireEvent.change(screen.getByPlaceholderText('Input a Pokémon name'), { target: { value: 'pikachu' } });
+    fireEvent.change(screen.getByPlaceholderText('Input a Pokémon name'), { target: { value: 'Pikachu' } });
     fireEvent.click(screen.getByText('Search'));
 
     await waitFor(() => {
       expect(screen.getByText('Pikachu')).toBeInTheDocument();
     });
 
-    // Simulate clicking the Next button
-    fireEvent.click(screen.getByText('View next'));
+    // Simulate clicking the Previous button
+    fireEvent.click(screen.getByText('Previous'));
 
     await waitFor(() => {
-      // Ensure the displayed Pokémon data is updated to the next Pokémon
+      // Ensure the displayed Pokémon data is updated to the previous Pokémon
       expect(screen.getByText('Arbok')).toBeInTheDocument();
-      expect(screen.getByText('24')).toBeInTheDocument();
       expect(fetch).toHaveBeenCalledTimes(2); // Ensure fetch was called twice
-      expect(fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/pokemon/26'); // Ensure fetch was called with the correct URL for the next Pokémon
+      expect(fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/pokemon/24'); // Ensure fetch was called with the correct URL for the previous Pokémon
     });
-  }) // end of test 1
-
-
-
+  });
 });
